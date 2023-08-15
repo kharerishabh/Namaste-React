@@ -2,10 +2,11 @@ import ResturantCard from "./ResturantCard";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
+import useOnlineStatus from "../utilis/useOnlineStatus";
 
 const Body = () => {
   const [listOfResturant, setListOfResturant] = useState([]);
-  const [filteredResturant, setFilteredResturant] = useState([])
+  const [filteredResturant, setFilteredResturant] = useState([]);
   const [searchText, setSearchText] = useState("");
   useEffect(() => {
     fetchData();
@@ -23,9 +24,17 @@ const Body = () => {
       json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
     setFilteredResturant(
-     json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   };
+  const onlineStatus = useOnlineStatus();
+  if (onlineStatus === false) {
+    return (
+      <h1 style={{ textAlign: "center" }}>
+        'Looks Like You Are offline!! Please Check Your Internet connection'
+      </h1>
+    );
+  }
   //Conditional Rendering
   // if(listOfResturant.length === 0){
   //   return <Shimmer/>
@@ -50,8 +59,8 @@ const Body = () => {
               //Search Text
               const filteredResturant = listOfResturant.filter((res) =>
                 res.info.name.toLowerCase().includes(searchText)
-              )
-              setFilteredResturant(filteredResturant)
+              );
+              setFilteredResturant(filteredResturant);
             }}
           >
             Search
@@ -60,7 +69,7 @@ const Body = () => {
         <button
           className="filter-btn"
           onClick={() => {
-            console.log('cli')
+            console.log("cli");
             let filteredList = listOfResturant.filter(
               (res) => res.info.avgRating > 4
             );
@@ -72,7 +81,10 @@ const Body = () => {
       </div>
       <div className="res-container">
         {filteredResturant.map((resturant) => (
-         <Link key={resturant.info.id} to={'/restaurant/'+ resturant.info.id}> <ResturantCard resData={resturant} /></Link>
+          <Link key={resturant.info.id} to={"/restaurant/" + resturant.info.id}>
+            {" "}
+            <ResturantCard resData={resturant} />
+          </Link>
         ))}
       </div>
     </div>
