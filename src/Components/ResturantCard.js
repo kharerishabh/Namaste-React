@@ -2,7 +2,7 @@ import { CDN_URL } from "../utilis/constants";
 
 const ResturantCard = (props) => {
   const { resData } = props;
-  const { name, cuisines, avgRating, cloudinaryImageId } = resData?.info;
+  const { name, cuisines, avgRating, cloudinaryImageId} = resData?.info;
   return (
     <div className="m-4 p-4 w-[200px] rounded-lg bg-gray-100 hover:bg-gray-200">
       <img
@@ -17,4 +17,18 @@ const ResturantCard = (props) => {
     </div>
   );
 };
+
+ // Higher Order Component
+  
+ // Input - ResturantCard ==>> ResturantCardAreaName
+ export const withAreaNameLabel = (ResturantCard) => {
+  return (props) => {
+    const {resData} = props
+    const {areaName} = resData?.info
+    return (<div>
+      <label className="absolute bg-black text-white m-2 p-2 rounded-lg">{areaName}</label>
+      <ResturantCard {...props}/>
+    </div>)
+  }
+ }
 export default ResturantCard;

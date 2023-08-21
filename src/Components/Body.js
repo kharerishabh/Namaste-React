@@ -1,4 +1,4 @@
-import ResturantCard from "./ResturantCard";
+import ResturantCard, {withAreaNameLabel} from "./ResturantCard";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
@@ -8,6 +8,10 @@ const Body = () => {
   const [listOfResturant, setListOfResturant] = useState([]);
   const [filteredResturant, setFilteredResturant] = useState([]);
   const [searchText, setSearchText] = useState("");
+  console.log("Body Rendered", listOfResturant)
+  
+  const ResturantCardAreaName = withAreaNameLabel(ResturantCard)
+  
   useEffect(() => {
     fetchData();
   }, []);
@@ -85,7 +89,11 @@ const Body = () => {
         {filteredResturant.map((resturant) => (
           <Link key={resturant.info.id} to={"/restaurant/" + resturant.info.id}>
             {" "}
-            <ResturantCard resData={resturant} />
+            {/* {/**Id the Resturant is AreaName Paharia then add label to it */
+            resturant.info.areaName === 'Shastri Nagar' ? <ResturantCardAreaName resData={resturant}/>: <ResturantCard resData={resturant} />
+            } 
+           {console.log(resturant.info.areaName)}
+            
           </Link>
         ))}
       </div>
