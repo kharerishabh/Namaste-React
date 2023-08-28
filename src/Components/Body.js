@@ -1,8 +1,9 @@
 import ResturantCard, { withAreaNameLabel } from "./ResturantCard";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import useOnlineStatus from "../utilis/useOnlineStatus";
+import UserContext from "../utilis/UserContext";
 
 const Body = () => {
   const [listOfResturant, setListOfResturant] = useState([]);
@@ -19,7 +20,7 @@ const Body = () => {
       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=25.3528525&lng=82.99719089999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
     const json = await data.json();
-    
+
     //optional chaining(?)
     setListOfResturant(
       json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
@@ -40,6 +41,7 @@ const Body = () => {
   // if(listOfResturant.length === 0){
   //   return <Shimmer/>
   // }
+  const { loggedInUser, setUserName } = useContext(UserContext);
   return listOfResturant.length === 0 ? (
     <Shimmer />
   ) : (
@@ -81,6 +83,14 @@ const Body = () => {
           >
             Top Rated Resturant
           </button>
+        </div>
+        <div className="m-4 p-4 flex items-center">
+          <label className="p-1">UserName</label>
+          <input
+            className="p-2 m-1 border border-black rounded-lg"
+            value={loggedInUser}
+            onChange={(e) => setUserName(e.target.value)}
+          />
         </div>
       </div>
       <div className="flex flex-wrap m-4 p-4">

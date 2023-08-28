@@ -1,13 +1,10 @@
-import React, {useState} from "react";
 import ItemLists from "./itemLists";
 
-const ResturantCategory = ({ data }) => {
+const ResturantCategory = ({ data, showItems, setShowIndex }) => {
   //  console.log(data);
-  const [showItems, setShowItems] = useState(false)
   const handleClick = () => {
-    setShowItems(!showItems)
+    setShowIndex()
   }
-
   return (
     <div>
       {/**Accordin Header */}

@@ -1,23 +1,35 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
-import Header from "./Components/Header";
 import Body from "./Components/Body";
+import Header from "./Components/Header";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import About from "./Components/About";
+import About from './Components/About'
 import Contact from "./Components/Contact";
 import Error from "./Components/Error";
 import ResturantMenu from "./Components/ResturantMenu";
-import Shimmer from "./Components/Shimmer";
-// import Grocery from "./Components/Grocery";
+import UserContext from "./utilis/UserContext";
 
 const Grocery = lazy(() => import("./Components/Grocery"))
 
 const AppLayout = () => {
+
+  const [userName, setUserName] = useState()
+
+  useEffect(() => {
+    const data = {
+      name: 'Rishabh Khare'
+    }
+    setUserName(data.name)
+  }, [])
+
+
   return (
-    <div className="bg-gray-200">
+    <UserContext.Provider value={{loggedInUser: userName, setUserName}}>
+    <div className="bg-pink-200">
       <Header />
       <Outlet />
     </div>
+    </UserContext.Provider>
   );
 };
 //You can also to this by 'CreateHashRouter' it work same as createBrowserRouter
