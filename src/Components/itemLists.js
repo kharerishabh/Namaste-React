@@ -1,7 +1,14 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { CDN_URL } from "../utilis/constants";
+import { addItem } from "../redux-store/cartSlice";
+
 const ItemLists = ({ items }) => {
-  console.log(items);
+  const dispatch = useDispatch();
+  const handleAddItem = (item) => {
+    dispatch(addItem(item));
+  };
+
   return (
     <div>
       {items.map((item) => {
@@ -11,22 +18,27 @@ const ItemLists = ({ items }) => {
             className="p-2 m-2 border-gray-300 border-b-2 text-left flex justify-between"
           >
             <div className="w-9/12">
-            <div className="py-2">
-              <span>{item.card.info.name}</span>
-              <span>
-                - ₹
-                {item.card.info.price
-                  ? item.card.info.price / 100
-                  : item.card.info.defaultPrice / 100}
-              </span>
+              <div className="py-2">
+                <span>{item.card.info.name}</span>
+                <span>
+                  - ₹
+                  {item.card.info.price
+                    ? item.card.info.price / 100
+                    : item.card.info.defaultPrice / 100}
+                </span>
+              </div>
+              <p className="text-xs">{item.card.info.description}</p>
             </div>
-            <p className="text-xs">{item.card.info.description}</p>
-          </div>
-          <div className="w-3/12 p-4">
-            <div className="absolute">
-            <button className="p-1 mx-7 bg-black text-white shadow-lg rounded-lg">Add +</button>
-            </div>
-            <img src={CDN_URL + item.card.info.imageId} className="w-full"/>            
+            <div className="w-3/12 p-4">
+              <div className="absolute">
+                <button
+                  className="p-1 mx-7 bg-black text-white shadow-lg rounded-lg"
+                  onClick={() => handleAddItem(item)}
+                >
+                  Add +
+                </button>
+              </div>
+              <img src={CDN_URL + item.card.info.imageId} className="w-full" />
             </div>
           </div>
         );
